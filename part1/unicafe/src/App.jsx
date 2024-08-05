@@ -5,6 +5,19 @@ const Header = ({ text }) => <h1>{text}</h1>
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 const Statistic = ({ text, value }) => <p>{text} {value}</p>
 
+const Statistics = (props) => {
+  return (
+    <p>
+      good {props.good}<br/>
+      neutral {props.neutral}<br/>
+      bad {props.bad}<br/>
+      all {props.all}<br/>
+      average {props.average}<br/>
+      positive {props.positive} %
+    </p>
+  )
+}
+
 const App = () => {
   console.log(new Date());
   // save clicks of each button to its own state
@@ -36,12 +49,21 @@ const App = () => {
       <Button onClick={handleFeedback("neutral")} text="neutral"></Button>
       <Button onClick={handleFeedback("bad")} text="bad"></Button>
       <Header text="statistics"></Header>
-      <Statistic text="good" value={good}></Statistic>
+      {/* <Statistic text="good" value={good}></Statistic>
       <Statistic text="neutral" value={neutral}></Statistic>
       <Statistic text="bad" value={bad}></Statistic>
       <Statistic text="all" value={total}></Statistic>
       <Statistic text="average" value={avg}></Statistic>
-      <Statistic text="positive" value={`${pctPositive}%`}></Statistic>
+      <Statistic text="positive" value={`${pctPositive}%`}></Statistic> */}
+      <Statistics 
+        good={good} 
+        neutral={neutral} 
+        bad={bad} 
+        all={total} 
+        average={avg}
+        positive={pctPositive}
+      >
+      </Statistics>
     </div>
   )
 }
