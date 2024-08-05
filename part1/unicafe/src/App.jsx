@@ -42,6 +42,19 @@ const App = () => {
   const total = good + neutral + bad
   const avg = total>0 ? ((1)*good + (0)*neutral + (-1)*bad) / total : 0
   const pctPositive = total>0 ? 100*(good  / total) : 0
+  
+  if (total === 0) {
+    return (
+      <div>
+        <Header text="give feedback"></Header>
+        <Button onClick={handleFeedback("good")} text="good"></Button>
+        <Button onClick={handleFeedback("neutral")} text="neutral"></Button>
+        <Button onClick={handleFeedback("bad")} text="bad"></Button>
+        <Header text="statistics"></Header>
+        <p>No feedback given</p>
+      </div>
+    )
+  }
   return (
     <div>
       <Header text="give feedback"></Header>
