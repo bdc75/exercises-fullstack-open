@@ -44,7 +44,6 @@ const Content = (props) => {
   const parts = props.course.parts
   return (
     <div>
-      {/* <Part part={parts[0].name} ex={parts[0].exercises}/> */}
       {parts.map((part) => <Part key={part.id} part={part.name} ex={part.exercises}/>)}
     </div>
   )
