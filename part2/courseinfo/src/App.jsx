@@ -52,6 +52,7 @@ const Content = (props) => {
 
 const Total = (props) => {
   const parts = props.course.parts
+  // I used reduce in 2.2
   const sumExerc = parts.reduce(
     (sum, part) => sum + part.exercises, 0
   )
