@@ -3,17 +3,23 @@ import { useState } from 'react'
 
 const Header = ({ text }) => <h1>{text}</h1>
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
-const Statistic = ({ text, value }) => <p>{text} {value}</p>
+const StatisticLine = ({ text, value }) => <>{text} {value}<br/></>
 
 const Statistics = (props) => {
   return (
     <p>
-      good {props.good}<br/>
-      neutral {props.neutral}<br/>
-      bad {props.bad}<br/>
-      all {props.all}<br/>
-      average {props.average}<br/>
-      positive {props.positive} %
+      {/* good {props.good}<br/> */}
+      <StatisticLine text="good" value={props.good}></StatisticLine>
+      {/* neutral {props.neutral}<br/> */}
+      <StatisticLine text="neutral" value={props.neutral}></StatisticLine>
+      {/* bad {props.bad}<br/> */}
+      <StatisticLine text="bad" value={props.bad}></StatisticLine>
+      {/* all {props.all}<br/> */}
+      <StatisticLine text="all" value={props.all}></StatisticLine>
+      {/* average {props.average}<br/> */}
+      <StatisticLine text="average" value={props.average}></StatisticLine>
+      {/* positive {props.positive} % */}
+      <StatisticLine text="positive" value={`${props.positive}%`}></StatisticLine>
     </p>
   )
 }
