@@ -3,24 +3,27 @@ import { useState } from 'react'
 
 const Header = ({ text }) => <h1>{text}</h1>
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
-const StatisticLine = ({ text, value }) => <>{text} {value}<br/></>
+const StatisticLine = ({ text, value }) => {
+  return (
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
+  )
+}
 
 const Statistics = (props) => {
   return (
-    <p>
-      {/* good {props.good}<br/> */}
-      <StatisticLine text="good" value={props.good}></StatisticLine>
-      {/* neutral {props.neutral}<br/> */}
-      <StatisticLine text="neutral" value={props.neutral}></StatisticLine>
-      {/* bad {props.bad}<br/> */}
-      <StatisticLine text="bad" value={props.bad}></StatisticLine>
-      {/* all {props.all}<br/> */}
-      <StatisticLine text="all" value={props.all}></StatisticLine>
-      {/* average {props.average}<br/> */}
-      <StatisticLine text="average" value={props.average}></StatisticLine>
-      {/* positive {props.positive} % */}
-      <StatisticLine text="positive" value={`${props.positive}%`}></StatisticLine>
-    </p>
+    <table>
+      <tbody>
+        <StatisticLine text="good" value={props.good}></StatisticLine>
+        <StatisticLine text="neutral" value={props.neutral}></StatisticLine>
+        <StatisticLine text="bad" value={props.bad}></StatisticLine>
+        <StatisticLine text="all" value={props.all}></StatisticLine>
+        <StatisticLine text="average" value={props.average}></StatisticLine>
+        <StatisticLine text="positive" value={`${props.positive}%`}></StatisticLine>
+      </tbody>
+    </table>
   )
 }
 
@@ -68,12 +71,6 @@ const App = () => {
       <Button onClick={handleFeedback("neutral")} text="neutral"></Button>
       <Button onClick={handleFeedback("bad")} text="bad"></Button>
       <Header text="statistics"></Header>
-      {/* <Statistic text="good" value={good}></Statistic>
-      <Statistic text="neutral" value={neutral}></Statistic>
-      <Statistic text="bad" value={bad}></Statistic>
-      <Statistic text="all" value={total}></Statistic>
-      <Statistic text="average" value={avg}></Statistic>
-      <Statistic text="positive" value={`${pctPositive}%`}></Statistic> */}
       <Statistics 
         good={good} 
         neutral={neutral} 
