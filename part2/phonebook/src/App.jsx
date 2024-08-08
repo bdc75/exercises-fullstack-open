@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Person from './components/Person'
 import axios from 'axios'
+import personServices from './services/persons'
 
 const Filter = ({ onChange }) => {
   return <div>filter shown with: <input onChange={onChange}/></div>
@@ -32,8 +33,8 @@ const App = () => {
 
   useEffect(() => {
     console.log('effect');
-    axios
-      .get('http://localhost:3001/persons')
+    personServices
+      .getAll()
       .then(response => {
         console.log('promise fulfilled')
         setPersons(response.data)
@@ -53,8 +54,14 @@ const App = () => {
   const addPerson = (e) => {
     e.preventDefault()
     const newPerson = { name: newName, number: newNumber }
-    if (!persons.find((person) => person.name === newName)) 
-      setPersons(persons.concat(newPerson)) 
+    if (!persons.find((person) => person.name === newName))
+      personServices
+      .create(newPerson)
+      .then(response => {
+        console.log('adding to persons: ', response)
+        setPersons(persons.concat(newPerson)) 
+      })
+      
     else
       alert(`${newName} is already in the phonebook`)
   }
