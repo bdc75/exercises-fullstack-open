@@ -3,6 +3,28 @@ import Person from './components/Person'
 import axios from 'axios'
 import personServices from './services/persons'
 
+const Notification = ({ message, error }) => {
+  if (message === null) {
+    return null
+  }
+  const notifStyle = {
+      color: "green",
+      background: "lightgrey",
+      fontSize: 20,
+      borderStyle: "solid",
+      borderRadius: 5,
+      padding: 10,
+      marginBottom: 10
+  }
+  if (error) notifStyle.color = "red"
+
+  return (
+    <div style={notifStyle}> 
+      {message}
+    </div>
+  )
+}
+
 const Filter = ({ onChange }) => {
   return <div>filter shown with: <input onChange={onChange}/></div>
 }
@@ -30,6 +52,8 @@ const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [notif, setNotif] = useState(null)
+  const [err, setErr] = useState(false)
 
   useEffect(() => {
     console.log('effect');
@@ -51,6 +75,12 @@ const App = () => {
     setPersons(filtered)
   }
 
+  const timesetNotif = ( message, ms ) => {
+    setNotif(message)
+    setTimeout(() => {
+      setNotif(null)
+    }, ms)
+  }
 
   const addPerson = (e) => {
     e.preventDefault()
@@ -62,13 +92,15 @@ const App = () => {
       .create(newPerson)
       .then(response => {
         console.log('adding to persons: ', response)
-        setPersons(persons.concat(response)) 
+        setPersons(persons.concat(response))
+        timesetNotif(`"${response.name}" added to phonebook`, 5000)
       })
     }
     else {
       if (window.confirm(`${newName} is already in the phonebook, replace old number with new one?`)) {
         newPerson.id = foundPerson.id
         updatePhone(foundPerson.id, newPerson)
+        timesetNotif(`phone # updated: "${foundPerson.name}"`, 5000)
       }
     }
       
@@ -96,12 +128,16 @@ const App = () => {
         : person
       ))
     })
+    .catch(e => {
+      setErr(true)
+      timesetNotif(`Info of "${newPerson.name}" already removed from server`, 5000)
+    })
   }
   
 
-  console.log('render persons as: ', persons)
   return (
     <div>
+      <Notification message={notif} error={err}/>
       <h2>Phonebook</h2>
       <Filter onChange={handleSearchChange}/>
       <PersonForm 
