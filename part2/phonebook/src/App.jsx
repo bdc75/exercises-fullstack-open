@@ -55,16 +55,23 @@ const App = () => {
   const addPerson = (e) => {
     e.preventDefault()
     const newPerson = { name: newName, number: newNumber }
-    if (!persons.find((person) => person.name === newName))
+    const foundPerson = persons.find((person) => person.name === newName)
+    console.log('person found:', foundPerson)
+    if (!foundPerson) {
       personServices
       .create(newPerson)
       .then(response => {
         console.log('adding to persons: ', response)
-        setPersons(persons.concat(newPerson)) 
+        setPersons(persons.concat(response)) 
       })
+    }
+    else {
+      if (window.confirm(`${newName} is already in the phonebook, replace old number with new one?`)) {
+        newPerson.id = foundPerson.id
+        updatePhone(foundPerson.id, newPerson)
+      }
+    }
       
-    else
-      alert(`${newName} is already in the phonebook`)
   }
 
  
@@ -77,6 +84,18 @@ const App = () => {
         console.log('delete person response:', response)
         setPersons(persons.filter(p => p.id !== person.id))
       })
+  }
+
+  const updatePhone = (id, newPerson) => {
+    personServices
+    .update(id, newPerson)
+    .then(response => {
+      console.log('update phone response:', response)
+      setPersons(persons.map(person => id === person.id
+        ? newPerson
+        : person
+      ))
+    })
   }
   
 

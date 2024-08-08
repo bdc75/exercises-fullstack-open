@@ -4,7 +4,7 @@
 // }
 const Person = ({ person, onDelete }) => {
     return (
-        <li>
+        <li key={person.id}>
             {person.name}: {person.number}
             <button onClick={onDelete}>delete</button>
         </li>
