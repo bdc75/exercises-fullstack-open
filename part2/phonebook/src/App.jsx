@@ -51,6 +51,7 @@ const App = () => {
     setPersons(filtered)
   }
 
+  
   const addPerson = (e) => {
     e.preventDefault()
     const newPerson = { name: newName, number: newNumber }
