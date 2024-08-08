@@ -7,9 +7,9 @@ const Filter = ({ onChange }) => {
   return <div>filter shown with: <input onChange={onChange}/></div>
 }
 
-const Persons = ({ persons }) => (
+const Persons = ({ persons, onDelete }) => (
   <ul>
-    {persons.map(person => <Person key={person.name} person={person}/>)}
+    {persons.map(person => <Person key={person.id} person={person} onDelete={() => onDelete(person)}/>)}
   </ul>
 )
 
@@ -51,7 +51,7 @@ const App = () => {
     setPersons(filtered)
   }
 
-  
+
   const addPerson = (e) => {
     e.preventDefault()
     const newPerson = { name: newName, number: newNumber }
@@ -67,6 +67,19 @@ const App = () => {
       alert(`${newName} is already in the phonebook`)
   }
 
+ 
+  const deletePerson = person => {
+      if (!window.confirm(`Delete "${person.name}"?`)) 
+        return;
+      personServices
+      .deleteService(person.id)
+      .then(response => {
+        console.log('delete person response:', response)
+        setPersons(persons.filter(p => p.id !== person.id))
+      })
+  }
+  
+
   console.log('render persons as: ', persons)
   return (
     <div>
@@ -80,9 +93,10 @@ const App = () => {
         onNumberChange={handleNumberChange}  
       />
       <h2>Numbers</h2>
-      <Persons persons={persons}/>
+      <Persons persons={persons} onDelete={deletePerson}/>
     </div>
   )
+  // debugger
 }
 
 
