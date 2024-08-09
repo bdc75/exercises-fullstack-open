@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
+const api_key = import.meta.env.VITE_OPENWEATHER
+
 const countriesURL = "https://studies.cs.helsinki.fi/restcountries/api/all"
+const weatherURL = (lat, lon) =>  `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${api_key}`
+const weatherIconURL = (iconCode) => `https://openweathermap.org/img/wn/${iconCode}@2x.png`
+
+// of country object, attribute latlng is a list [42, 2] e.g.
 
 const Languages = ({ langs }) => (
   <div>
@@ -14,17 +20,38 @@ const Languages = ({ langs }) => (
   </div>
 )
 
-const CountryProfile = ({ country }) => {
+const Weather = ({ weather, country }) => {
+  if (!weather) return null
+  return (
+    <div>
+      <h2>Weather in {country.capital}</h2>
+      <p>temperature {weather.main.temp} Celsius</p>
+      <img src={weatherIconURL(weather.weather[0].icon)}/>
+      <p>wind {weather.wind.speed}m/s</p>
+    </div>
+  )
+}
+
+const CountryProfile = ({ country, weather, setWeather }) => {
   console.log('country', country)
   if (!country)
     return null
-  else return (
+  const [lat, lng] = [country.latlng[0], country.latlng[1]]
+  useEffect(() => {
+      axios
+      .get(weatherURL(lat, lng))
+      .then(response => setWeather(response.data)
+      )
+    }, []
+  )
+  return (
     <div style={{padding: 0}}>
       <h2>{country.name.common}</h2>
       <p>capital {country.capital}</p>
       <p>area {country.area}</p>
       <Languages langs={country.languages} />
       <img src={country.flags.png} alt={country.flags.alt}/>
+      <Weather weather={weather} country={country}/>
     </div>
   )
 }
@@ -37,7 +64,7 @@ const CountryForm = ({ search, onChange }) => (
   </div>
 )
 
-const Results = ({ filteredResults, setResults }) => {
+const Results = ({ filteredResults, setResults, weather, setWeather }) => {
   const resStyle = {listStyleType: "none", padding: 0}
 
   const len = filteredResults.length
@@ -59,17 +86,17 @@ const Results = ({ filteredResults, setResults }) => {
     )
   } 
   else {
-    return <CountryProfile country={filteredResults[0]}/>
+    return <CountryProfile country={filteredResults[0]} weather={weather} setWeather={setWeather}/>
   }
 }
 
 const App = () => {
   const [search, setSearch] = useState('')
-  // const [numResults, setNumResults] = useState(0)
   const [initialResults, setInitialResults] = useState([])
   const [filteredResults, setFilteredResults] = useState([])
-  // const [shownCountry, setShownCountry] = useState(null)
+  const [weather, setWeather] = useState(null)
 
+  
   // Set initial results once
   useEffect(() => {
     axios
@@ -94,8 +121,7 @@ const App = () => {
   return (
     <div style={{backgroundColor: 'powderblue'}}>
       <CountryForm search={search} onChange={handleSearch}/>
-      <Results filteredResults={filteredResults} setResults={setFilteredResults}/>
-      {/* <CountryProfile country={shownCountry}/> */}
+      <Results filteredResults={filteredResults} setResults={setFilteredResults} weather={weather} setWeather={setWeather}/>
     </div>
   )
 }
