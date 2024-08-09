@@ -41,7 +41,6 @@ const Results = ({ filteredResults, setResults }) => {
   const resStyle = {listStyleType: "none", padding: 0}
 
   const len = filteredResults.length
-  console.log('length of results:', len)
   
   if (len === 0) {
     return null
@@ -61,7 +60,6 @@ const Results = ({ filteredResults, setResults }) => {
   } 
   else {
     return <CountryProfile country={filteredResults[0]}/>
-    // onShow(filteredResults[0])
   }
 }
 
