@@ -1,6 +1,8 @@
 import axios from 'axios'
 // OLD:   const baseUrl = 'http://localhost:3001/persons'
-const baseUrl = 'http://localhost:3001/api'
+// worked for when we deployed just the backend:  const baseUrl = 'http://localhost:3001/api'
+// now we have to define baseUrl to be a relative URL since the backend and frontend exist at same URL
+const baseUrl = '/api'
 const personsUrl = `${baseUrl}/persons`
 
 const getAll = () => {

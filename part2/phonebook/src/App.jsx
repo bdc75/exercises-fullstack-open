@@ -96,6 +96,12 @@ const App = () => {
         setPersons(persons.concat(response))
         timesetNotif(`"${response.name}" added to phonebook`, 5000)
       })
+      .catch(error => {
+        // this is the way to access the error message
+        console.log(error.response.data.error)
+        setErr(true)
+        timesetNotif(`"name must be at least 3 characters: ${newPerson.name} is too short"`, 5000)
+      })
     }
     else {
       if (window.confirm(`${newName} is already in the phonebook, replace old number with new one?`)) {
