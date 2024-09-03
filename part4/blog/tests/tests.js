@@ -252,3 +252,64 @@ describe('favoriteBlog', () => {
     )
   })
 })
+
+describe('mostBlogs', () => {
+  const blogs0 = []
+  test('empty list', () => {
+    assert.deepStrictEqual(
+      { author: undefined, blogs: undefined }, 
+      listHelper.mostBlogs(blogs0)
+    )
+  })
+
+  const blogs1 = [
+    {author: 'Jon', r: 0, a: 1}
+  ]
+  test('singleton list', () => {
+    assert.deepStrictEqual(
+      { author: 'Jon', blogs: 1 },
+      listHelper.mostBlogs(blogs1)
+    )
+  })
+
+  const blogs2 = [
+    {author: 'Jon', r: 2, a: 6},
+    {author: 'Barb', r: 6, a: 2},
+    {author: 'Jon', r: 0, a: 2},
+    {author: 'Jon', r: 2, a: 6},
+    {author: 'Barb', r: 2, a: 1},
+    {author: 'Barb', r: 0, a: 1},
+    {author: 'Barb', r: 6, a: 1},
+    {author: 'Jon', r: 0, a: 2},
+    {author: 'Barb', r: 7, a: 1},
+  ]
+  test('two different names', () => {
+    assert.deepStrictEqual(
+      { author: 'Barb', blogs: 5 },
+      listHelper.mostBlogs(blogs2)
+    )
+  })
+
+  const blogs3 = [
+    {author: 'Suz', random: "random", doesntmatter: "hello"},
+    {author: 'Jon', r: 2, a: 6},
+    {author: 'Suz', random: "random", doesntmatter: "hello"},
+    {author: 'Barb', r: 6, a: 2},
+    {author: 'Jon', r: 0, a: 2},
+    {author: 'Jon', r: 2, a: 6},
+    {author: 'Barb', r: 2, a: 1},
+    {author: 'Suz', random: "random", doesntmatter: "hello"},
+    {author: 'Barb', r: 0, a: 1},
+    {author: 'Barb', r: 6, a: 1},
+    {author: 'Jon', r: 0, a: 2},
+    {author: 'Suz', random: "random", doesntmatter: "hello"},
+    {author: 'Barb', r: 7, a: 1},
+  ]
+  test('three different names', () => {
+    assert.deepStrictEqual(
+      { author: 'Barb', blogs: 5 },
+      listHelper.mostBlogs(blogs3)
+    )
+  })
+
+})
