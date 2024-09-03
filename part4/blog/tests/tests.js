@@ -313,3 +313,74 @@ describe('mostBlogs', () => {
   })
 
 })
+
+describe('mostLikes', () => {
+  const blogs0 = []
+  test('empty list', () => {
+    assert.deepStrictEqual(
+      { author: undefined, likes: undefined }, 
+      listHelper.mostLikes(blogs0)
+    )
+  })
+
+  const blogs1 = [
+    {author: 'Jon', likes:10, random:"ran"}
+  ]
+  test('singleton list', () => {
+    assert.deepStrictEqual(
+      { author: 'Jon', likes:10 },
+      listHelper.mostLikes(blogs1)
+    )
+  })
+
+  const blogs15 = [
+    {author: 'Jon', likes:10, abc:''},
+    {author: 'Jon', likes:5, def:''}
+  ]
+  test('one author two blogs', () => {
+    assert.deepStrictEqual(
+      { author: 'Jon', likes: 15 },
+      listHelper.mostLikes(blogs15)
+    )
+  })
+
+  const blogs2 = [
+    {author: 'Jon', r: 2, a: 6, likes: 1},
+    {author: 'Barb', r: 6, a: 2, likes: 2},
+    {author: 'Jon', r: 0, a: 2, likes: 3},
+    {author: 'Jon', r: 2, a: 6, likes: 4},
+    {author: 'Barb', r: 2, a: 1, likes: 5},
+    {author: 'Barb', r: 0, a: 1, likes: 6},
+    {author: 'Barb', r: 6, a: 1, likes: 7},
+    {author: 'Jon', r: 0, a: 2, likes: 8},
+    {author: 'Barb', r: 7, a: 1, likes: 9},
+  ]
+  test('two different names', () => {
+    assert.deepStrictEqual(
+      { author: 'Barb', likes: 29 },
+      listHelper.mostLikes(blogs2)
+    )
+  })
+
+  const blogs3 = [
+    {author: 'Suz', random: "random", doesntmatter: "hello", likes: 0},
+    {author: 'Jon', r: 2, a: 6, likes: 0},
+    {author: 'Suz', random: "random", doesntmatter: "hello", likes: 0},
+    {author: 'Barb', r: 6, a: 2, likes: 10},
+    {author: 'Jon', r: 0, a: 2, likes: 0},
+    {author: 'Jon', r: 2, a: 6, likes: 0},
+    {author: 'Barb', r: 2, a: 1, likes: 0},
+    {author: 'Suz', random: "random", doesntmatter: "hello", likes: 0},
+    {author: 'Barb', r: 0, a: 1, likes: 5},
+    {author: 'Barb', r: 6, a: 1, likes: 5},
+    {author: 'Jon', r: 0, a: 2, likes: 0},
+    {author: 'Suz', random: "random", doesntmatter: "hello", likes: 22},
+    {author: 'Barb', r: 7, a: 1, likes: 1},
+  ]
+  test('three different names', () => {
+    assert.deepStrictEqual(
+      { author: 'Suz', likes: 22 },
+      listHelper.mostLikes(blogs3)
+    )
+  })
+})
